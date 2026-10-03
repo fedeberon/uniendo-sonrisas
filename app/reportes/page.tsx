@@ -1,0 +1,2 @@
+import { Shell } from "@/components/shell";
+export default function ReportsPage(){return <Shell current="Reportes"><div className="content"><div className="eyebrow">Análisis</div><h1 className="title">Reportes</h1><p className="intro">Consultá la evolución de socios y aportes de la fundación.</p><div className="card"><div className="empty">Los reportes detallados estarán disponibles cuando conectes la base de datos.</div></div></div></Shell>}

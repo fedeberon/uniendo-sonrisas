@@ -1,0 +1,5 @@
+"use client";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
+
+export default function LoginPage() { return <main className="login-page"><section className="login-aside"><div className="brand"><span className="brand-mark">✦</span> Uniendo Sonrisas</div><div><div className="eyebrow" style={{color:"#f6c65e"}}>Tu comunidad, más cerca</div><h1>El compromiso se construye juntos.</h1><p>Consultá tus aportes, actualizá tus datos y acompañá el impacto de la fundación.</p></div></section><section className="login-card"><div className="login-box"><Link href="/" className="back">← Volver al inicio</Link><div className="eyebrow">Portal de socios</div><h2>Ingresá a tu cuenta</h2><p>Usá tu cuenta de Google para acceder de forma segura.</p><button className="google-btn" onClick={() => signIn("google", { callbackUrl:"/dashboard" })}><span style={{fontSize:18,verticalAlign:"-2px",marginRight:9}}>G</span> Continuar con Google</button><p className="demo-note">Para revisar el prototipo, podés entrar al <Link href="/dashboard" style={{color:"#2563eb",fontWeight:700}}>panel de demostración</Link>.</p></div></section></main>; }
