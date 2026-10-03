@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "db:migrate": "node scripts/migrate.mjs",
+    "prebuild": "npm run db:migrate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -19,6 +21,7 @@
     "@types/node": "^22.15.30",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
+    "dotenv": "^16.6.1",
     "typescript": "^5.9.2"
   }
 }
