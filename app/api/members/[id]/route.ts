@@ -6,7 +6,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   const body = await request.json();
   if (!hasDatabase()) return Response.json({ member: { id, ...body }, demo: true });
   const sql = getDb();
-  const rows = await sql`UPDATE members SET name=${body.name}, email=${body.email}, phone=${body.phone || ""}, plan=${body.plan || "Socio colaborador"}, status=${body.status || "Activo"} WHERE id=${id} RETURNING *`;
+  const rows = await sql`UPDATE members SET name=${body.name}, email=${body.email || null}, phone=${body.phone || ""}, address=${body.address || ""}, plan=${body.plan || "Socio colaborador"}, status=${body.status || "Activo"} WHERE id=${id} RETURNING *`;
   if (!rows[0]) return Response.json({ error: "Socio no encontrado" }, { status: 404 });
   return Response.json({ member: rows[0], demo: false });
 }

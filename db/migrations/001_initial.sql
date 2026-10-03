@@ -1,8 +1,10 @@
 CREATE TABLE IF NOT EXISTS members (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
-  email TEXT UNIQUE NOT NULL,
+  email TEXT UNIQUE,
   phone TEXT,
+  external_id INTEGER,
+  address TEXT,
   joined_at DATE NOT NULL DEFAULT CURRENT_DATE,
   status TEXT NOT NULL DEFAULT 'Activo',
   plan TEXT NOT NULL DEFAULT 'Socio colaborador',
@@ -21,3 +23,4 @@ CREATE TABLE IF NOT EXISTS payments (
 
 CREATE INDEX IF NOT EXISTS payments_member_id_idx ON payments(member_id);
 CREATE INDEX IF NOT EXISTS payments_period_idx ON payments(period);
+CREATE UNIQUE INDEX IF NOT EXISTS members_external_id_idx ON members(external_id) WHERE external_id IS NOT NULL;

@@ -1,7 +1,7 @@
 export type MemberStatus = "Activo" | "Pendiente" | "Inactivo";
 
 export type Member = {
-  id: string; name: string; email: string; phone: string; joinedAt: string;
+  id: string; externalId?: number | null; name: string; email: string | null; phone: string; address?: string | null; joinedAt: string;
   status: MemberStatus; plan: string; avatar: string; paidMonths: number; totalMonths: number;
 };
 
