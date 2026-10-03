@@ -3,8 +3,14 @@ import { getDb, hasDatabase } from "@/lib/db";
 
 type MemberRow = Omit<Member, "paidMonths" | "totalMonths"> & { joinedAt: string };
 
+function formatDate(value: string | Date | null | undefined): string {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  return new Intl.DateTimeFormat("es-AR", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }).format(value);
+}
+
 function mapMember(row: MemberRow): Member {
-  return { ...row, phone: row.phone ?? "", avatar: row.avatar || row.name.split(" ").map((part) => part[0]).slice(0, 2).join("").toUpperCase(), paidMonths: 0, totalMonths: 12 };
+  return { ...row, joinedAt: formatDate(row.joinedAt), phone: row.phone ?? "", avatar: row.avatar || row.name.split(" ").map((part) => part[0]).slice(0, 2).join("").toUpperCase(), paidMonths: 0, totalMonths: 12 };
 }
 
 export async function getMembers(): Promise<Member[]> {
@@ -17,7 +23,8 @@ export async function getMembers(): Promise<Member[]> {
 export async function getPayments(): Promise<Payment[]> {
   if (!hasDatabase()) return demoPayments;
   const sql = getDb();
-  return await sql`SELECT id, member_id AS "memberId", amount, paid_at AS "paidAt", period, status, method FROM payments ORDER BY paid_at DESC` as Payment[];
+  const rows = await sql`SELECT id, member_id AS "memberId", amount, paid_at AS "paidAt", period, status, method FROM payments ORDER BY paid_at DESC`;
+  return rows.map((row) => ({ ...row, paidAt: formatDate(row.paidAt as string | Date) })) as Payment[];
 }
 
 export async function getMember(id: string): Promise<Member | undefined> {
