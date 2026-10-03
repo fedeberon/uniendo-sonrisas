@@ -1,0 +1,3 @@
+import Link from "next/link";
+
+export function PublicFooter() { return <footer className="public-footer"><div><Link href="/institucional" className="public-brand"><span className="brand-mark">✦</span><span>Uniendo <em>Sonrisas</em></span></Link><p>Una comunidad que trabaja para que las infancias tengan más oportunidades de jugar, aprender y crecer.</p></div><div className="footer-links"><Link href="/institucional#acciones">Qué hacemos</Link><Link href="/institucional/comision-directiva">Equipo</Link><Link href="/dashboard">Gestión de socios</Link></div><div className="footer-note">San Carlos de Bolívar<br/>Buenos Aires, Argentina</div></footer>; }
