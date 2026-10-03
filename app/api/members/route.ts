@@ -12,7 +12,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   const body = await request.json();
   if (!body.name || !body.email) return Response.json({ error: "Nombre y email son obligatorios" }, { status: 400 });
-  if (!hasDatabase()) return Response.json({ member: { id: `demo-${Date.now()}`, ...body }, demo: true }, { status: 201 });
+  if (!hasDatabase()) return Response.json({ member: { id: `demo-${Date.now()}`, joinedAt: "Hoy", status: "Activo", paidMonths: 0, totalMonths: 12, ...body }, demo: true }, { status: 201 });
   const sql = getDb();
   const id = `m-${crypto.randomUUID()}`;
   const rows = await sql`INSERT INTO members (id, name, email, phone, plan, avatar) VALUES (${id}, ${body.name}, ${body.email}, ${body.phone || ""}, ${body.plan || "Socio colaborador"}, ${body.avatar || ""}) RETURNING *`;
