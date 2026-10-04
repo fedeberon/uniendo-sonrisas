@@ -23,7 +23,7 @@ export async function getMembers(): Promise<Member[]> {
 export async function getPayments(): Promise<Payment[]> {
   if (!hasDatabase()) return demoPayments;
   const sql = getDb();
-  const rows = await sql`SELECT id, member_id AS "memberId", amount, paid_at AS "paidAt", period, status, method FROM payments ORDER BY paid_at DESC`;
+  const rows = await sql`SELECT payments.id, payments.member_id AS "memberId", payments.amount, payments.paid_at AS "paidAt", payments.period, COALESCE((SELECT ARRAY_AGG(payment_months.period_key ORDER BY payment_months.period_key) FROM payment_months WHERE payment_months.payment_id = payments.id), ARRAY[]::TEXT[]) AS "periodKeys", payments.status, payments.method, payments.months_count AS "monthsCount", payments.receipt_data AS "receiptData", payments.receipt_name AS "receiptName", payments.receipt_status AS "receiptStatus", payments.submitted_by AS "submittedBy" FROM payments ORDER BY payments.paid_at DESC`;
   return rows.map((row) => ({ ...row, paidAt: formatDate(row.paidAt as string | Date) })) as Payment[];
 }
 
