@@ -5,7 +5,7 @@ export type Member = {
   status: MemberStatus; plan: string; avatar: string; paidMonths: number; totalMonths: number;
 };
 
-export type Payment = { id: string; memberId: string; amount: number; paidAt: string; period: string; status: string; method: string; monthsCount?: number; receiptData?: string | null; receiptName?: string | null; receiptStatus?: string; submittedBy?: string | null };
+export type Payment = { id: string; memberId: string; amount: number; paidAt: string; period: string; periodKeys?: string[]; status: string; method: string; monthsCount?: number; receiptData?: string | null; receiptName?: string | null; receiptStatus?: string; submittedBy?: string | null };
 
 export const demoMembers: Member[] = [
   { id:"m-001", name:"María González", email:"maria.gonzalez@email.com", phone:"11 4567 8901", joinedAt:"12 feb 2024", status:"Activo", plan:"Socio colaborador", avatar:"MG", paidMonths:12, totalMonths:12 },
