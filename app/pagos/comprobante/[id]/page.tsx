@@ -1,0 +1,13 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { money, type Member, type Payment } from "@/lib/data";
+
+export default function ReceiptPage({ params }: { params: Promise<{ id: string }> }) {
+  const [payment, setPayment] = useState<Payment | null>(null); const [member, setMember] = useState<Member | null>(null); const [error, setError] = useState("");
+  useEffect(() => { params.then(({ id }) => Promise.all([fetch(`/api/payments/${id}`).then((response) => response.json()), fetch("/api/members").then((response) => response.json())]).then(([paymentData, memberData]) => { if (!paymentData.payment) { setError(paymentData.error || "Comprobante no encontrado"); return; } setPayment(paymentData.payment); setMember(memberData.members?.find((item: Member) => item.id === paymentData.payment.memberId) || null); }).catch(() => setError("No se pudo cargar el comprobante."))); }, [params]);
+  if (error) return <main className="receipt-page"><div className="receipt-error">{error}<Link href="/pagos">Volver a pagos</Link></div></main>;
+  if (!payment) return <main className="receipt-page"><div className="receipt-loading">Cargando comprobante...</div></main>;
+  return <main className="receipt-page"><div className="receipt-actions"><Link href="/pagos">← Volver a pagos</Link><button className="primary" onClick={() => window.print()}>Imprimir / Guardar PDF</button></div><section className="receipt-card"><div className="receipt-brand"><span className="brand-mark">✦</span><div><strong>Uniendo Sonrisas</strong><small>Asociación Civil</small></div><span className="receipt-status">{payment.receiptStatus || "Registrado"}</span></div><div className="receipt-title"><span>COMPROBANTE DE PAGO</span><strong>#{payment.id.slice(-8)}</strong></div><div className="receipt-grid"><div><small>Socio</small><strong>{member?.name || "Socio"}</strong></div><div><small>Fecha de registro</small><strong>{payment.paidAt}</strong></div><div><small>Período abonado</small><strong>{payment.period}</strong></div><div><small>Medio de pago</small><strong>{payment.method}</strong></div></div><div className="receipt-amount"><span>Total abonado</span><strong>{money(payment.amount)}</strong><small>{payment.monthsCount || 1} {(payment.monthsCount || 1) === 1 ? "mes" : "meses"}</small></div>{payment.receiptData && <div className="receipt-proof"><small>Comprobante adjunto</small><img src={payment.receiptData} alt="Comprobante de transferencia"/></div>}<p className="receipt-footnote">Este comprobante acredita la recepción del pago informado. La organización puede verificar la transferencia antes de confirmarla.</p></section></main>;
+}
