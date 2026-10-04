@@ -1,11 +1,13 @@
 import { NextRequest } from "next/server";
 import { demoMembers } from "@/lib/data";
 import { getDb, hasDatabase } from "@/lib/db";
+import { formatDate } from "@/lib/server-data";
 
 export async function GET() {
   if (!hasDatabase()) return Response.json({ members: demoMembers, demo: true });
   const sql = getDb();
-  const members = await sql`SELECT id, external_id AS "externalId", name, email, phone, address, joined_at AS "joinedAt", status, plan, avatar FROM members ORDER BY joined_at DESC, name ASC`;
+  const rows = await sql`SELECT id, external_id AS "externalId", name, email, phone, address, joined_at AS "joinedAt", status, plan, avatar FROM members ORDER BY joined_at DESC, name ASC`;
+  const members = rows.map((member) => ({ ...member, joinedAt: formatDate(member.joinedAt as string | Date) }));
   return Response.json({ members, demo: false });
 }
 

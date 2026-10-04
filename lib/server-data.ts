@@ -3,7 +3,7 @@ import { getDb, hasDatabase } from "@/lib/db";
 
 type MemberRow = Omit<Member, "paidMonths" | "totalMonths"> & { joinedAt: string };
 
-function formatDate(value: string | Date | null | undefined): string {
+export function formatDate(value: string | Date | null | undefined): string {
   if (!value) return "";
   if (typeof value === "string") return value;
   return new Intl.DateTimeFormat("es-AR", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }).format(value);
