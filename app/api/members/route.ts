@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   const memberNumber = body.externalId === "" || body.externalId == null ? null : Number(body.externalId);
   if (memberNumber !== null && (!Number.isInteger(memberNumber) || memberNumber < 1)) return Response.json({ error: "El número de socio debe ser un entero positivo" }, { status: 400 });
   const dni = body.dni?.trim() || null;
-  if (dni && !/^\d{7,8}$/.test(dni)) return Response.json({ error: "El DNI debe contener entre 7 y 8 dígitos" }, { status: 400 });
+  if (dni && dni.includes(".")) return Response.json({ error: "El DNI no puede contener puntos" }, { status: 400 });
   if (!hasDatabase()) return Response.json({ member: { id: `demo-${Date.now()}`, joinedAt: "Hoy", status: "Activo", paidMonths: 0, totalMonths: 12, ...body }, demo: true }, { status: 201 });
   const sql = getDb();
   const id = `m-${crypto.randomUUID()}`;
