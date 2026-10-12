@@ -10,13 +10,13 @@ export function formatDate(value: string | Date | null | undefined): string {
 }
 
 function mapMember(row: MemberRow): Member {
-  return { ...row, joinedAt: formatDate(row.joinedAt), phone: row.phone ?? "", avatar: row.avatar || row.name.split(" ").map((part) => part[0]).slice(0, 2).join("").toUpperCase(), paidMonths: 0, totalMonths: 12 };
+  return { ...row, joinedAt: formatDate(row.joinedAt), phone: row.phone ?? "", dni: row.dni ?? null, avatar: row.avatar || row.name.split(" ").map((part) => part[0]).slice(0, 2).join("").toUpperCase(), paidMonths: 0, totalMonths: 12 };
 }
 
 export async function getMembers(): Promise<Member[]> {
   if (!hasDatabase()) return demoMembers;
   const sql = getDb();
-  const rows = await sql`SELECT id, external_id AS "externalId", name, email, phone, address, joined_at AS "joinedAt", status, plan, avatar FROM members ORDER BY joined_at DESC, name ASC`;
+  const rows = await sql`SELECT id, external_id AS "externalId", dni, name, email, phone, address, joined_at AS "joinedAt", status, plan, avatar FROM members ORDER BY joined_at DESC, name ASC`;
   return rows.map((row) => mapMember(row as MemberRow));
 }
 

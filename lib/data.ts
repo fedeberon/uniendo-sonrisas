@@ -1,18 +1,18 @@
 export type MemberStatus = "Activo" | "Pendiente" | "Inactivo";
 
 export type Member = {
-  id: string; externalId?: number | null; name: string; email: string | null; phone: string; address?: string | null; joinedAt: string;
+  id: string; externalId?: number | null; dni?: string | null; name: string; email: string | null; phone: string; address?: string | null; joinedAt: string;
   status: MemberStatus; plan: string; avatar: string; paidMonths: number; totalMonths: number;
 };
 
 export type Payment = { id: string; memberId: string; amount: number; paidAt: string; period: string; periodKeys?: string[]; status: string; method: string; monthsCount?: number; receiptData?: string | null; receiptName?: string | null; receiptStatus?: string; submittedBy?: string | null };
 
 export const demoMembers: Member[] = [
-  { id:"m-001", name:"María González", email:"maria.gonzalez@email.com", phone:"11 4567 8901", joinedAt:"12 feb 2024", status:"Activo", plan:"Socio colaborador", avatar:"MG", paidMonths:12, totalMonths:12 },
-  { id:"m-002", name:"Julián Rodríguez", email:"julian.rodriguez@email.com", phone:"11 5123 7788", joinedAt:"08 mar 2024", status:"Activo", plan:"Socio fundador", avatar:"JR", paidMonths:11, totalMonths:12 },
-  { id:"m-003", name:"Sofía Martínez", email:"sofia.martinez@email.com", phone:"11 6345 2210", joinedAt:"21 abr 2024", status:"Pendiente", plan:"Socio colaborador", avatar:"SM", paidMonths:8, totalMonths:12 },
-  { id:"m-004", name:"Diego Fernández", email:"diego.fernandez@email.com", phone:"11 4788 0192", joinedAt:"02 may 2024", status:"Activo", plan:"Socio colaborador", avatar:"DF", paidMonths:12, totalMonths:12 },
-  { id:"m-005", name:"Carolina López", email:"carolina.lopez@email.com", phone:"11 3234 6541", joinedAt:"15 jun 2024", status:"Inactivo", plan:"Socio colaborador", avatar:"CL", paidMonths:6, totalMonths:12 },
+  { id:"m-001", externalId: 1, dni:"30123456", name:"María González", email:"maria.gonzalez@email.com", phone:"11 4567 8901", joinedAt:"12 feb 2024", status:"Activo", plan:"Socio colaborador", avatar:"MG", paidMonths:12, totalMonths:12 },
+  { id:"m-002", externalId: 2, dni:"31234567", name:"Julián Rodríguez", email:"julian.rodriguez@email.com", phone:"11 5123 7788", joinedAt:"08 mar 2024", status:"Activo", plan:"Socio fundador", avatar:"JR", paidMonths:11, totalMonths:12 },
+  { id:"m-003", externalId: 3, dni:"32345678", name:"Sofía Martínez", email:"sofia.martinez@email.com", phone:"11 6345 2210", joinedAt:"21 abr 2024", status:"Pendiente", plan:"Socio colaborador", avatar:"SM", paidMonths:8, totalMonths:12 },
+  { id:"m-004", externalId: 4, dni:"33456789", name:"Diego Fernández", email:"diego.fernandez@email.com", phone:"11 4788 0192", joinedAt:"02 may 2024", status:"Activo", plan:"Socio colaborador", avatar:"DF", paidMonths:12, totalMonths:12 },
+  { id:"m-005", externalId: 5, dni:"34567890", name:"Carolina López", email:"carolina.lopez@email.com", phone:"11 3234 6541", joinedAt:"15 jun 2024", status:"Inactivo", plan:"Socio colaborador", avatar:"CL", paidMonths:6, totalMonths:12 },
 ];
 
 export const demoPayments: Payment[] = [
